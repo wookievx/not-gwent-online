@@ -35,14 +35,14 @@ Handlebars.registerHelper("formatMessage", function(msg){
 
 let App = Backbone.Router.extend({
   routes: {
-    /*"lobby": "lobbyRoute",
+    "lobby": "lobbyRoute",
     "battle": "battleRoute",
-    "*path": "defaultRoute"*/
+    "*path": "defaultRoute"
   },
   initialize: function(){
     let self = this;
-    this.connect();
     this.user = new User({app: this});
+    this.connect();
 
     /*Backbone.history.start();*/
     this.lobbyRoute();
@@ -53,13 +53,15 @@ let App = Backbone.Router.extend({
     console.log(this.socket.connected);
     this.socket.on("connect", function(socket){
       self.user.set("serverOffline", false);
-    })
+    });
     this.socket.on("disconnect", function(socket){
       self.user.set("serverOffline", true);
-    })
+    });
+    return this.socket;
   },
   receive: function(event, cb){
-    this.socket.on(event, cb);
+    let socket = this.socket || this.connect();
+    socket.on(event, cb);
   }, /*
   receiveOnce: function(event, cb){
     this.socket.once(event, cb);
@@ -715,8 +717,10 @@ let User = Backbone.Model.extend({
     let app = user.get("app");
 
     self.set("chooseSide", false);
+    
+    console.log(this.attributes);
 
-    this.listenTo(this.attributes, "change:room", this.subscribeRoom);
+    self.on("change:room", this.subscribeRoom);
 
     app.receive("response:name", function(data){
       self.set("name", data.name);
@@ -733,6 +737,7 @@ let User = Backbone.Model.extend({
     })
 
     app.receive("response:joinRoom", function(roomID){
+      console.log("joining room: " + roomID);
       self.set("room", roomID);
       //console.log("room id", self.get("room"));
     })

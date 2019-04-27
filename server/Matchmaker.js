@@ -43,6 +43,9 @@ var Matchmaker = (function(){
       c.roomCollection[room.getID()] = room;
       room.join(user);
       room.join(found);
+      console.log("Found match");
+      console.log(user);
+      console.log(found);
       user._inQueue = false;
       found._inQueue = false;
       return room;
