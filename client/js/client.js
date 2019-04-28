@@ -42,7 +42,7 @@ let App = Backbone.Router.extend({
   initialize: function(){
     let self = this;
     this.user = new User({app: this});
-    this.connect();
+    let socket = this.socket || this.connect();
 
     /*Backbone.history.start();*/
     this.lobbyRoute();
@@ -50,6 +50,7 @@ let App = Backbone.Router.extend({
   connect: function(){
     this.socket = socket(Config.Server.hostname + ":" + Config.Server.port);
     var self = this;
+    console.log("Connecting");
     console.log(this.socket.connected);
     this.socket.on("connect", function(socket){
       self.user.set("serverOffline", false);
@@ -717,7 +718,7 @@ let User = Backbone.Model.extend({
     let app = user.get("app");
 
     self.set("chooseSide", false);
-    
+
     console.log(this.attributes);
 
     self.on("change:room", this.subscribeRoom);
@@ -727,7 +728,8 @@ let User = Backbone.Model.extend({
     });
 
     app.receive("init:battle", function(data){
-      //console.log("opponent found!");
+      console.log("opponent found!");
+      console.log(data);
       self.set("roomSide", data.side);
       self.set("roomFoeSide", data.foeSide);
       /*
