@@ -815,7 +815,7 @@ Battleside = (function() {
 
   r.getDiscard = function(json) {
     if(json) {
-      return JSON.stringify(this._discard);
+      return this._discard;
     }
     return this._discard;
   }

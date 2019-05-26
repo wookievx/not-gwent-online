@@ -518,7 +518,7 @@ let BattleView = Backbone.View.extend({
 
     app.on("update:hand", function(data){
       if(user.get("roomSide") == data._roomSide){
-        self.handCards = JSON.parse(data.cards);
+        self.handCards = data.cards;
         self.user.set("handCards", app.handCards);
         self.render();
       }
@@ -535,7 +535,7 @@ let BattleView = Backbone.View.extend({
       side.infoData = infoData;
       side.leader = leader;
 
-      side.infoData.discard = JSON.parse(side.infoData.discard);
+      side.infoData.discard = side.infoData.discard;
 
       side.render();
     })
@@ -559,7 +559,7 @@ let BattleView = Backbone.View.extend({
 
       if(event === "update:hand"){
         if(user.get("roomSide") == data._roomSide){
-          self.handCards = JSON.parse(data.cards);
+          self.handCards = data.cards;
           self.user.set("handCards", self.handCards);
           self.render();
         }
@@ -576,7 +576,7 @@ let BattleView = Backbone.View.extend({
         side.infoData = infoData;
         side.leader = leader;
 
-        side.infoData.discard = JSON.parse(side.infoData.discard);
+        side.infoData.discard = side.infoData.discard;
 
         side.render();
       }
@@ -760,14 +760,14 @@ let User = Backbone.Model.extend({
     })
 
     app.receive("played:medic", function(data){
-      let cards = JSON.parse(data.cards);
+      let cards = data.cards;
       self.set("medicDiscard", {
         cards: cards
       });
     })
 
     app.receive("played:emreis_leader4", function(data){
-      let cards = JSON.parse(data.cards);
+      let cards = data.cards;
       self.set("emreis_leader4", {
         cards: cards
       });

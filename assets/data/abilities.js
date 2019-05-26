@@ -30,7 +30,7 @@ module.exports = {
       })
 
       this.send("played:medic", {
-        cards: JSON.stringify(discard)
+        cards: discard
       }, true);
 
       this.sendNotificationTo(this.foe, this.getName() + " chooses a card from discard pile.")
@@ -346,7 +346,7 @@ module.exports = {
       })
 
       this.send("played:emreis_leader4", {
-        cards: JSON.stringify(discard)
+        cards: discard
       }, true);
     }
   },

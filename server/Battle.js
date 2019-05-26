@@ -231,7 +231,7 @@ var Battle = (function(){
       leader: p.field[Card.TYPE.LEADER].get()[0]
     }, isPrivate)
     p.send("update:hand", {
-      cards: JSON.stringify(p.hand.getCards())
+      cards: p.hand.getCards()
     }, isPrivate);
     p.send("update:fields", {
       close: p.field[Card.TYPE.CLOSE_COMBAT].getInfo(),
